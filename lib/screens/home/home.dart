@@ -9,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<bool> _iconStates = [true, false, false, false];
+ 
 
   final List<Map<String, String>> _recipes = [
     {
@@ -55,67 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
   ];
-
-  Widget _buildSmoothIcon(
-    int index,
-    IconData outlineIcon,
-    IconData filledIcon,
-  ) {
-    return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.fastOutSlowIn,
-      tween: Tween(
-        begin: _iconStates[index] ? 0.0 : 1.0,
-        end: _iconStates[index] ? 1.0 : 0.0,
-      ),
-      onEnd: () {
-        // Optional: Add haptic feedback
-        // HapticFeedback.lightImpact();
-      },
-      builder: (context, value, child) {
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              // Reset all icons
-              for (int i = 0; i < _iconStates.length; i++) {
-                _iconStates[i] = i == index;
-              }
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: _iconStates[index]
-                  ? LinearGradient(
-                      colors: [
-                        AppTheme.primaryGreen.withValues(alpha: 0.4),
-                        Colors.transparent,
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    )
-                  : null,
-            ),
-            child: Stack(
-              children: [
-                // Outline icon (inactive state)
-                Opacity(
-                  opacity: 1 - value,
-                  child: Icon(outlineIcon, color: Colors.white, size: 24),
-                ),
-                // Filled icon (active state)
-                Opacity(
-                  opacity: value,
-                  child: Icon(filledIcon, color: Colors.white, size: 24),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   Widget _buildChefAvatar(String name, String imageUrl) {
     return Padding(
@@ -484,46 +423,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 10,
-              spreadRadius: 2,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: BottomAppBar(
-          height: 70,
-          color: const Color(0xFF042628),
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 8,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildSmoothIcon(0, Icons.home_outlined, Icons.home),
-              _buildSmoothIcon(1, Icons.explore_outlined, Icons.explore),
-              const SizedBox(width: 40),
-              _buildSmoothIcon(2, Icons.chat_bubble_outline, Icons.chat_bubble),
-              _buildSmoothIcon(3, Icons.person_outlined, Icons.person),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppTheme.primaryGreen,
-        elevation: 4,
-        shape: const CircleBorder(),
-        child: const Icon(
-          Icons.add,
-          size: 32,
-          color: Colors.white,
-        ),
-        onPressed: () {},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
+     );
   }
 }
