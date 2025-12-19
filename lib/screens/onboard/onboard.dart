@@ -20,7 +20,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   final List<Map<String, dynamic>> onboardingData = [
     {
-      'image': 'assets/images/b1.jpg', // Make sure this path is correct in pubspec.yaml
+      'image':
+          'assets/images/b1.jpg', // Make sure this path is correct in pubspec.yaml
       'title': 'Discover Delicious Recipes',
       'description':
           'Explore thousands of mouth-watering recipes from top chefs around the world.',
@@ -45,7 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize animations AFTER the widget is created
     _initializeAnimations();
   }
@@ -70,15 +71,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       ),
     );
 
-    _colorAnimation = ColorTween(
-      begin: AppTheme.primaryGreen.withValues(alpha:0.3),
-      end: AppTheme.primaryGreen,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _colorAnimation =
+        ColorTween(
+          begin: AppTheme.primaryGreen.withValues(alpha: 0.3),
+          end: AppTheme.primaryGreen,
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          ),
+        );
 
     _animationController.forward();
   }
@@ -122,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         boxShadow: _currentPage == index
             ? [
                 BoxShadow(
-                  color: AppTheme.primaryGreen.withValues(alpha:0.3),
+                  color: AppTheme.primaryGreen.withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -132,18 +134,19 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
-void _navigateToHome(BuildContext context) {
-  Navigator.pushReplacement(
-    context,
-    PageRouteBuilder(
-      pageBuilder: (_, __, ___) => const MainNavigationScreen(), // ← CHANGE HERE
-      transitionsBuilder: (_, animation, __, child) {
-        return FadeTransition(opacity: animation, child: child);
-      },
-      transitionDuration: const Duration(milliseconds: 600),
-    ),
-  );
-}
+  void _navigateToHome(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            const MainNavigationScreen(), // ← CHANGE HERE
+        transitionsBuilder: (_, animation, __, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        transitionDuration: const Duration(milliseconds: 600),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -281,7 +284,7 @@ void _navigateToHome(BuildContext context) {
             borderRadius: BorderRadius.circular(30),
           ),
           elevation: 4,
-          shadowColor: AppTheme.primaryGreen.withValues(alpha:0.3),
+          shadowColor: AppTheme.primaryGreen.withValues(alpha: 0.3),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -295,11 +298,7 @@ void _navigateToHome(BuildContext context) {
               ),
             ),
             const SizedBox(width: 8),
-            Icon(
-              Icons.arrow_forward_rounded,
-              size: 20,
-              color: Colors.white,
-            ),
+            Icon(Icons.arrow_forward_rounded, size: 20, color: Colors.white),
           ],
         ),
       ),
@@ -320,7 +319,7 @@ void _navigateToHome(BuildContext context) {
               borderRadius: BorderRadius.circular(30),
             ),
             elevation: 6,
-            shadowColor: AppTheme.primaryGreen.withValues(alpha:0.4),
+            shadowColor: AppTheme.primaryGreen.withValues(alpha: 0.4),
           ),
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -334,11 +333,7 @@ void _navigateToHome(BuildContext context) {
                 ),
               ),
               SizedBox(width: 8),
-              Icon(
-                Icons.arrow_forward_rounded,
-                size: 24,
-                color: Colors.white,
-              ),
+              Icon(Icons.arrow_forward_rounded, size: 24, color: Colors.white),
             ],
           ),
         ),
@@ -388,18 +383,14 @@ class OnboardingPage extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppTheme.primaryGreen.withValues(alpha:0.1),
+                color: AppTheme.primaryGreen.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: AppTheme.primaryGreen.withValues(alpha:0.2),
+                  color: AppTheme.primaryGreen.withValues(alpha: 0.2),
                   width: 2,
                 ),
               ),
-              child: Icon(
-                data['icon'],
-                size: 40,
-                color: AppTheme.primaryGreen,
-              ),
+              child: Icon(data['icon'], size: 40, color: AppTheme.primaryGreen),
             ),
 
             const SizedBox(height: 40),
@@ -407,48 +398,22 @@ class OnboardingPage extends StatelessWidget {
             // Image Container
             Expanded(
               flex: 4,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppTheme.primaryDark.withValues(alpha:0.1),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: Image.asset(
-                    data['image'],
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: AppTheme.fieldBg,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.image_not_supported_rounded,
-                                size: 40,
-                                color: AppTheme.gray,
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                'Image not available',
-                                style: TextStyle(
-                                  color: AppTheme.gray,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.primaryDark.withValues(alpha: 0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: Image.asset(data['image'], fit: BoxFit.cover),
                   ),
                 ),
               ),

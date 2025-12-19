@@ -4,7 +4,8 @@ import '../../theme/app_theme.dart';
 // Import your screens
 import '../home/home.dart';
 import '../notification/notification.dart';
-import '../chat/chat.dart';
+// import '../chat/chat.dart';
+import '../trackorder/trackorder.dart';
 import '../profile/profilescreen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const NotificationsScreen(), // Using as Search tab
-    const ChatScreen(), // Using as Favorites tab
+    const TrackOrderScreen(), // Using as Favorites tab
     const ProfileScreen(),
   ];
 
