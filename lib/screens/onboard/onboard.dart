@@ -54,7 +54,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   void _initializeAnimations() {
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 4),
+      duration: const Duration(seconds: 2),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
