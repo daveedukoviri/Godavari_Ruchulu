@@ -20,8 +20,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const ChatScreen(), // Using as Search tab
     const NotificationsScreen(), // Using as Favorites tab
+    const ChatScreen(), // Using as Search tab
     const ProfileScreen(),
   ];
 
