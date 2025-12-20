@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../utils/loader.dart';
+import '../payment/payment.dart';
 
 class Receiptdetails extends StatefulWidget {
   const Receiptdetails({super.key});
@@ -12,6 +14,29 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
   String _selectedMeal = 'Double Meal (200g)';
   final List<String> _selectedExtras = ['Mozzarella', 'Ketchup'];
   int _quantity = 2;
+
+  Future<void> _onPayment() async {
+    // Show full-screen loader with custom animation
+    LoaderOverlay.show(
+      context: context,
+      lottieAsset: 'assets/icons/load.json',
+      message: 'Adding to cart...',
+    );
+
+    // Simulate processing (replace with real logic later)
+    await Future.delayed(const Duration(seconds: 3));
+
+    // Hide loader
+    LoaderOverlay.hide();
+
+    if (!mounted) return;
+
+    // Navigate to next page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PaymentMethodScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +314,7 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
                               const SizedBox(width: 16),
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: _onPayment,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppTheme.primaryGreen,
                                     padding: const EdgeInsets.symmetric(
@@ -301,7 +326,7 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
                                     elevation: 0,
                                   ),
                                   child: const Text(
-                                    'Add To Cart  ',
+                                    'Buy Now  ',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
