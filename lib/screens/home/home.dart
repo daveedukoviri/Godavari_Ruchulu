@@ -112,6 +112,35 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Define _badge helper method before using it
+  Widget _badge({required IconData icon, required String text}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: AppTheme.primaryGreen),
+          const SizedBox(width: 4),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: AppTheme.primaryDark,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildRecipeCard(
     String title,
     String chef,
@@ -120,103 +149,268 @@ class _HomeScreenState extends State<HomeScreen> {
     Map<String, String> recipe,
   ) {
     return GestureDetector(
-      onTap: () => {
+      onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => Receiptdetails(recipe: recipe),
-          ),
-        ),
+          MaterialPageRoute(builder: (_) => Receiptdetails(recipe: recipe)),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16), // Smaller radius
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.1),
-              spreadRadius: 2,
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
-            AspectRatio(
-              aspectRatio: 1.2,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                ),
-                child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      color: Colors.grey[200],
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
+            // ================= IMAGE =================
+            Container(
+              height: 110, // Reduced for better fit
+              width: double.infinity,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(
                       color: Colors.grey[200],
                       child: const Center(
-                        child: Icon(Icons.error, color: Colors.grey),
+                        child: Icon(Icons.restaurant, color: Colors.grey),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+
+                  // Gradient overlay at bottom only
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.3),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Rating at bottom left
+                  Positioned(
+                    bottom: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: AppTheme.primaryGreen,
+                            size: 12,
+                          ),
+                          const SizedBox(width: 2),
+                          Text(
+                            recipe['rating']!,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.primaryDark,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // Price at bottom right
+                  Positioned(
+                    bottom: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryGreen,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        recipe['price']!,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
+
+            // ================= CONTENT =================
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title - Single line for safety
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.primaryDark,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+
+                  // Chef name
+                  Text(
+                    chef,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: AppTheme.gray),
+                  ),
+                  const SizedBox(height: 6),
+
+                  // Views and duration
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.remove_red_eye_outlined,
+                            size: 12,
+                            color: AppTheme.gray,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            views,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppTheme.gray,
+                            ),
+                          ),
+                        ],
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      chef,
-                      style: TextStyle(color: AppTheme.gray, fontSize: 11),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          views,
-                          style: TextStyle(color: AppTheme.gray, fontSize: 11),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
                         ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: const Icon(Icons.bookmark_border, size: 18),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryGreen.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '30 min',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: AppTheme.primaryGreen,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // ================= BOTTOM BAR =================
+            Container(
+              height: 36,
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey.withOpacity(0.1),
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Likes
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.favorite_border,
+                          size: 14,
+                          color: AppTheme.gray,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '2.5K',
+                          style: TextStyle(fontSize: 11, color: AppTheme.gray),
                         ),
                       ],
                     ),
+
+                    // Difficulty
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryGreen.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryGreen,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Easy',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: AppTheme.primaryGreen,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Share
+                    Icon(Icons.share_outlined, size: 14, color: AppTheme.gray),
                   ],
                 ),
               ),
@@ -413,29 +607,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
 
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 0.7,
-                        ),
-                    itemCount: _recipes.length,
-                    itemBuilder: (context, index) {
-                      final recipe = _recipes[index];
-                      return _buildRecipeCard(
-                        recipe['title']!,
-                        recipe['chef']!,
-                        recipe['views']!,
-                        recipe['imageUrl']!,
-                        recipe,
-                      );
-                    },
+              // Use SliverGridDelegateWithMaxCrossAxisExtent for better responsiveness
+              GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200, // Maximum width for each card
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.72, // Slightly taller to avoid overflow
+                ),
+                itemCount: _recipes.length,
+                itemBuilder: (context, index) {
+                  final recipe = _recipes[index];
+                  return _buildRecipeCard(
+                    recipe['title']!,
+                    recipe['chef']!,
+                    recipe['views']!,
+                    recipe['imageUrl']!,
+                    recipe,
                   );
                 },
               ),
