@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import 'package:lottie/lottie.dart';
 import '../../utils/audiotone/audiotone.dart';
+import '../main/main_navigator.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
   const PaymentMethodScreen({super.key});
@@ -36,7 +37,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                 ),
                 const SizedBox(height: 24),
                 const Text(
-                  'Your Subscription is Active.\nEnjoy Full Access!',
+                  'Your Delivery is Active.\nEnjoy the Food!',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
@@ -51,7 +52,14 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(dialogContext).pop();
+                      //
+                      Navigator.pushAndRemoveUntil(
+                        context, // ⚠️ parent context
+                        MaterialPageRoute(
+                          builder: (_) => const MainNavigationScreen(),
+                        ),
+                        (route) => false,
+                      );
                       // Navigator.of(context).pop(); // Uncomment if you want to go back after closing
                     },
                     style: ElevatedButton.styleFrom(

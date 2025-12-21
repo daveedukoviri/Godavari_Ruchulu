@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'chef': 'Liam Levi',
       'views': '110K views',
       'price': '\$12.99',
+      'isVeg': 'true',
       'rating': '4.8',
       'description':
           'Fresh quinoa salad with vegetables, herbs, and a light vinaigrette dressing.',
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'chef': 'Oliver Leo',
       'views': '250K views',
       'price': '\$15.99',
+      'isVeg': 'false',
       'rating': '4.9',
       'description': 'Traditional dish with rich flavors and authentic spices.',
       'imageUrl':
@@ -37,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'chef': 'Henry Chef',
       'views': '180K views',
       'price': '\$14.50',
+      'isVeg': 'true',
       'rating': '4.7',
       'description':
           'Classic Italian pasta with creamy sauce, bacon, and parmesan.',
@@ -48,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'chef': 'Noah King',
       'views': '95K views',
       'price': '\$9.99',
+      'isVeg': 'true',
       'rating': '4.6',
       'description': 'Healthy avocado toast with fresh ingredients and herbs.',
       'imageUrl':
@@ -58,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'chef': 'James Pro',
       'views': '320K views',
       'price': '\$16.99',
+      'isVeg': 'false',
       'rating': '4.9',
       'description':
           'Delicious stir-fried chicken with fresh vegetables and savory sauce.',
@@ -69,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'chef': 'Liam Levi',
       'views': '150K views',
       'price': '\$13.99',
+      'isVeg': 'true',
       'rating': '4.8',
       'description':
           'Nutritious bowl packed with grains, vegetables, and healthy proteins.',
@@ -120,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 4),
         ],
       ),
       child: Row(
@@ -148,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String imageUrl,
     Map<String, String> recipe,
   ) {
+    final bool isVeg = recipe['isVeg'] == 'true';
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -158,10 +165,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16), // Smaller radius
+          borderRadius: BorderRadius.circular(20), // Smaller radius
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.15),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -171,102 +178,109 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ================= IMAGE =================
-            Container(
-              height: 110, // Reduced for better fit
+            SizedBox(
+              height: 125, // Reduced for better fit
               width: double.infinity,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      color: Colors.grey[200],
-                      child: const Center(
-                        child: Icon(Icons.restaurant, color: Colors.grey),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.network(
+                      imageUrl,
+
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: Icon(Icons.restaurant, color: Colors.grey),
+                        ),
                       ),
                     ),
-                  ),
 
-                  // Gradient overlay at bottom only
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.3),
+                    // Gradient overlay at bottom only
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.3),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Rating at bottom left
+                    Positioned(
+                      bottom: 8,
+                      left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: AppTheme.primaryGreen,
+                              size: 12,
+                            ),
+                            const SizedBox(width: 2),
+                            Text(
+                              recipe['rating']!,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.primaryDark,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  ),
 
-                  // Rating at bottom left
-                  Positioned(
-                    bottom: 8,
-                    left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: AppTheme.primaryGreen,
-                            size: 12,
+                    // Price at bottom right
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryGreen,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          recipe['price']!,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
                           ),
-                          const SizedBox(width: 2),
-                          Text(
-                            recipe['rating']!,
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.primaryDark,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Price at bottom right
-                  Positioned(
-                    bottom: 8,
-                    right: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryGreen,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        recipe['price']!,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
@@ -325,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryGreen.withOpacity(0.1),
+                          color: AppTheme.primaryGreen.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -350,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.grey[50],
                 border: Border(
                   top: BorderSide(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -383,26 +397,44 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: AppTheme.primaryGreen.withOpacity(0.1),
+                        color: AppTheme.primaryGreen.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Row(
                         children: [
+                          // Simple elegant dot
                           Container(
-                            width: 5,
-                            height: 5,
+                            width: 8,
+                            height: 8,
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryGreen,
                               shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isVeg
+                                    ? const Color(0xFF4CAF50)
+                                    : const Color(0xFFF44336),
+                                width: 2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Container(
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: isVeg
+                                      ? const Color(0xFF4CAF50)
+                                      : const Color(0xFFF44336),
+                                ),
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: 6),
                           Text(
-                            'Easy',
+                            isVeg ? 'Veg' : 'Non-veg',
                             style: TextStyle(
                               fontSize: 10,
-                              color: AppTheme.primaryGreen,
                               fontWeight: FontWeight.w600,
+                              color: AppTheme.primaryGreen,
                             ),
                           ),
                         ],
@@ -615,7 +647,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   maxCrossAxisExtent: 200, // Maximum width for each card
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 0.72, // Slightly taller to avoid overflow
+                  childAspectRatio: 0.67, // Slightly taller to avoid overflow
                 ),
                 itemCount: _recipes.length,
                 itemBuilder: (context, index) {

@@ -20,7 +20,7 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
     LoaderOverlay.show(
       context: context,
       lottieAsset: 'assets/icons/load.json',
-      message: 'Adding to cart...',
+      message: 'Plate ready… Taste loading 😋...',
     );
 
     // Simulate processing (replace with real logic later)
@@ -51,7 +51,7 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
                 height: MediaQuery.of(context).size.height * 0.42,
                 width: double.infinity,
                 child: Image.network(
-                  'https://images.unsplash.com/photo-1551615593-ef5fe247e8f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                  'https://cdn.apartmenttherapy.info/image/upload/v1734750008/k/Photo/Recipes/2024-12-dumpling-soup/dumpling-soup-4827.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -313,12 +313,39 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
                               ),
                               const SizedBox(width: 16),
                               Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () {},
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: AppTheme.primaryGreen
+                                        .withValues(alpha: 0.2),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 18,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    side: BorderSide.none,
+                                    elevation: 0,
+                                  ),
+
+                                  child: const Text(
+                                    'Add to Cart',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: AppTheme.primaryGreen,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
                                 child: ElevatedButton(
                                   onPressed: _onPayment,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppTheme.primaryGreen,
                                     padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
+                                      vertical: 18,
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
