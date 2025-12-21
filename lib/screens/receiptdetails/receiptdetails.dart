@@ -4,7 +4,7 @@ import '../../utils/loader.dart';
 import '../payment/payment.dart';
 
 class Receiptdetails extends StatefulWidget {
-  const Receiptdetails({super.key});
+  const Receiptdetails({super.key, required Map<String, String> recipe});
 
   @override
   State<Receiptdetails> createState() => _ReceiptdetailsState();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import 'package:lottie/lottie.dart';
+import '../../utils/audiotone/audiotone.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
   const PaymentMethodScreen({super.key});
@@ -30,8 +31,8 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               children: [
                 Lottie.asset(
                   'assets/icons/payment.json',
-                  width: 120,
-                  height: 120,
+                  width: 180,
+                  height: 180,
                 ),
                 const SizedBox(height: 24),
                 const Text(
@@ -269,12 +270,20 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    // Show the dialog immediately
                     _showSuccessDialog(context);
+
+                    // Schedule sound to play right after the dialog is shown
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (!mounted) return;
+                      SoundService().playPaymentSuccess();
+                    });
                   },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryGreen,
-                    padding: const EdgeInsets.symmetric(vertical: 13),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),

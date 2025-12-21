@@ -123,7 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Receiptdetails()),
+          MaterialPageRoute(
+            builder: (context) => Receiptdetails(recipe: recipe),
+          ),
         ),
       },
       child: Container(
