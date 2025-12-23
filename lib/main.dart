@@ -46,7 +46,7 @@ class _AppEntryPointState extends State<AppEntryPoint> {
   void initState() {
     super.initState();
     // Automatically hide splash after 3 seconds (adjust as needed)
-    Future.delayed(const Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
         setState(() {
           _showSplash = false;
@@ -77,14 +77,10 @@ class SplashScreen extends StatelessWidget {
             Image.asset(
               'assets/images/logo.png', // Add your logo here
               width: 220,
-             
             ),
             Text(
               'Your Personal Recipe Planner',
-              style: TextStyle(
-                fontSize: 16,
-                color: AppTheme.gray,
-              ),
+              style: TextStyle(fontSize: 16, color: AppTheme.gray),
             ),
             const SizedBox(height: 60),
             CircularProgressIndicator(

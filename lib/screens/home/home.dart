@@ -16,6 +16,11 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Quinoa Salad',
       'chef': 'Liam Levi',
       'views': '110K views',
+      'price': '\$12.99',
+      'isVeg': 'true',
+      'rating': '4.8',
+      'description':
+          'Fresh quinoa salad with vegetables, herbs, and a light vinaigrette dressing.',
       'imageUrl':
           'https://cdn.apartmenttherapy.info/image/upload/v1734750008/k/Photo/Recipes/2024-12-dumpling-soup/dumpling-soup-4827.jpg',
     },
@@ -23,6 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Zhanokoye',
       'chef': 'Oliver Leo',
       'views': '250K views',
+      'price': '\$15.99',
+      'isVeg': 'false',
+      'rating': '4.9',
+      'description': 'Traditional dish with rich flavors and authentic spices.',
       'imageUrl':
           'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
@@ -30,6 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Pasta Carbonara',
       'chef': 'Henry Chef',
       'views': '180K views',
+      'price': '\$14.50',
+      'isVeg': 'true',
+      'rating': '4.7',
+      'description':
+          'Classic Italian pasta with creamy sauce, bacon, and parmesan.',
       'imageUrl':
           'https://images.unsplash.com/photo-1568625365131-079e026a927d?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
@@ -37,6 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Avocado Toast',
       'chef': 'Noah King',
       'views': '95K views',
+      'price': '\$9.99',
+      'isVeg': 'true',
+      'rating': '4.6',
+      'description': 'Healthy avocado toast with fresh ingredients and herbs.',
       'imageUrl':
           'https://plus.unsplash.com/premium_photo-1669557211332-9328425b6f39?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
@@ -44,6 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Chicken Stir Fry',
       'chef': 'James Pro',
       'views': '320K views',
+      'price': '\$16.99',
+      'isVeg': 'false',
+      'rating': '4.9',
+      'description':
+          'Delicious stir-fried chicken with fresh vegetables and savory sauce.',
       'imageUrl':
           'https://images.unsplash.com/photo-1604909052743-94e838986d24?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
@@ -51,6 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Vegan Buddha Bowl',
       'chef': 'Liam Levi',
       'views': '150K views',
+      'price': '\$13.99',
+      'isVeg': 'true',
+      'rating': '4.8',
+      'description':
+          'Nutritious bowl packed with grains, vegetables, and healthy proteins.',
       'imageUrl':
           'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
@@ -91,115 +119,340 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Define _badge helper method before using it
+  // Widget _badge({required IconData icon, required String text}) {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(20),
+  //       boxShadow: [
+  //         BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 4),
+  //       ],
+  //     ),
+  //     child: Row(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+  //         Icon(icon, size: 14, color: AppTheme.primaryGreen),
+  //         const SizedBox(width: 4),
+  //         Text(
+  //           text,
+  //           style: TextStyle(
+  //             fontSize: 12,
+  //             fontWeight: FontWeight.w600,
+  //             color: AppTheme.primaryDark,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   Widget _buildRecipeCard(
     String title,
     String chef,
     String views,
     String imageUrl,
+    Map<String, String> recipe,
   ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.1),
-            spreadRadius: 2,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min, // Important: don't expand
-        children: [
-          // Image container with fixed aspect ratio
-          AspectRatio(
-            aspectRatio: 1.2, // Slightly taller than square
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              ),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Container(
-                    color: Colors.grey[200],
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                            : null,
+    final bool isVeg = recipe['isVeg'] == 'true';
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => Receiptdetails(recipe: recipe)),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20), // Smaller radius
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ================= IMAGE =================
+            SizedBox(
+              height: 125, // Reduced for better fit
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.network(
+                      imageUrl,
+
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: Icon(Icons.restaurant, color: Colors.grey),
+                        ),
                       ),
                     ),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey[200],
-                    child: const Center(
-                      child: Icon(Icons.error, color: Colors.grey),
+
+                    // Gradient overlay at bottom only
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.3),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  );
-                },
+
+                    // Rating at bottom left
+                    Positioned(
+                      bottom: 8,
+                      left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: AppTheme.primaryGreen,
+                              size: 12,
+                            ),
+                            const SizedBox(width: 2),
+                            Text(
+                              recipe['rating']!,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.primaryDark,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Price at bottom right
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryGreen,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          recipe['price']!,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          // Content with flexible sizing
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
+
+            // ================= CONTENT =================
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Title - Single line for safety
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14, // Slightly smaller
-                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.primaryDark,
+                    ),
                   ),
                   const SizedBox(height: 4),
+
+                  // Chef name
                   Text(
                     chef,
-                    style: TextStyle(color: AppTheme.gray, fontSize: 11),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: AppTheme.gray),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
+
+                  // Views and duration
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        views,
-                        style: TextStyle(color: AppTheme.gray, fontSize: 11),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Receiptdetails(),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.remove_red_eye_outlined,
+                            size: 12,
+                            color: AppTheme.gray,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            views,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppTheme.gray,
                             ),
-                          );
-                        },
-                        child: const Icon(Icons.bookmark_border, size: 18),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '30 min',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: AppTheme.primaryGreen,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+
+            // ================= BOTTOM BAR =================
+            Container(
+              height: 36,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey.withValues(alpha: 0.1),
+                    width: 1,
+      
+                  ),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Likes
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.favorite_border,
+                          size: 14,
+                          color: AppTheme.gray,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '2.5K',
+                          style: TextStyle(fontSize: 11, color: AppTheme.gray),
+                        ),
+                      ],
+                    ),
+
+                    // Difficulty
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        children: [
+                          // Simple elegant dot
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isVeg
+                                    ? const Color(0xFF4CAF50)
+                                    : const Color(0xFFF44336),
+                                width: 2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Container(
+                                width: 4,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: isVeg
+                                      ? const Color(0xFF4CAF50)
+                                      : const Color(0xFFF44336),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            isVeg ? 'Veg' : 'Non-veg',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.primaryGreen,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Share
+                    Icon(Icons.share_outlined, size: 14, color: AppTheme.gray),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -254,7 +507,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Search Bar
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Search beverages or food',
@@ -272,7 +524,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Top Chef
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -320,7 +571,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 24),
 
-              // Premium Banner
               Container(
                 padding: const EdgeInsets.only(
                   top: 16,
@@ -379,14 +629,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 30),
 
-              // Trending Recipes
               const Text(
                 'Trending Recipes',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 16),
 
-              // Category Tabs
               SizedBox(
                 height: 40,
                 child: ListView(
@@ -402,29 +650,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Recipe Grid - Using GridView with IntrinsicHeight
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  return GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: 0.7, // Adjusted for better fit
-                        ),
-                    itemCount: _recipes.length,
-                    itemBuilder: (context, index) {
-                      final recipe = _recipes[index];
-                      return _buildRecipeCard(
-                        recipe['title']!,
-                        recipe['chef']!,
-                        recipe['views']!,
-                        recipe['imageUrl']!,
-                      );
-                    },
+              // Use SliverGridDelegateWithMaxCrossAxisExtent for better responsiveness
+              GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200, // Maximum width for each card
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.67, // Slightly taller to avoid overflow
+                ),
+                itemCount: _recipes.length,
+                itemBuilder: (context, index) {
+                  final recipe = _recipes[index];
+                  return _buildRecipeCard(
+                    recipe['title']!,
+                    recipe['chef']!,
+                    recipe['views']!,
+                    recipe['imageUrl']!,
+                    recipe,
                   );
                 },
               ),

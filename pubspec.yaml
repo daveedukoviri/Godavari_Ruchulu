@@ -11,8 +11,11 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  lottie: ^3.1.0
+  lottie: ^3.1.2
   google_maps_flutter: 2.14.0
+  cached_network_image: ^3.3.0
+  google_maps_flutter_web: ^0.5.9+1
+  just_audio: ^0.9.40
 
 dev_dependencies:
   flutter_test:
@@ -28,5 +31,9 @@ flutter:
         - asset: assets/fonts/NotoSans-VariableFont_wdth,wght.ttf
         - asset: assets/fonts/NotoSans-Italic-VariableFont_wdth,wght.ttf
           style: italic
+      
   assets:
     - assets/images/ 
+    - assets/icons/
+    - assets/tones/
+

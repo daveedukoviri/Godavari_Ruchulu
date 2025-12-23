@@ -6,7 +6,6 @@ import '../home/home.dart';
 import '../notification/notification.dart';
 import '../chat/chat.dart';
 // import '../trackorder/trackorder.dart';
-// import '../receiptdetails/receiptdetails.dart';
 import '../profile/profilescreen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -21,8 +20,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const NotificationsScreen(), // Using as Search tab
-    const ChatScreen(), // Using as Favorites tab
+    const NotificationsScreen(), // Using as Favorites tab
+    const ChatScreen(), // Using as Search tab
     const ProfileScreen(),
   ];
 
@@ -32,7 +31,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
-  Widget _buildSmoothIcon(int index, IconData outlineIcon, IconData filledIcon) {
+  Widget _buildSmoothIcon(
+    int index,
+    IconData outlineIcon,
+    IconData filledIcon,
+  ) {
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       child: Container(
@@ -42,7 +45,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           gradient: _selectedIndex == index
               ? LinearGradient(
                   colors: [
-                    AppTheme.primaryGreen.withValues(alpha:0.2),
+                    AppTheme.primaryGreen.withValues(alpha: 0.2),
                     Colors.transparent,
                   ],
                   begin: Alignment.topCenter,
@@ -69,10 +72,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _selectedIndex, children: _screens),
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         backgroundColor: AppTheme.primaryGreen,
@@ -88,7 +88,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha:0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               spreadRadius: 2,
               offset: const Offset(0, -2),
@@ -104,7 +104,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildSmoothIcon(0, Icons.home_outlined, Icons.home),
-              _buildSmoothIcon(1, Icons.notifications_outlined, Icons.notifications),
+              _buildSmoothIcon(
+                1,
+                Icons.notifications_outlined,
+                Icons.notifications,
+              ),
               const SizedBox(width: 40),
               _buildSmoothIcon(2, Icons.chat_bubble_outline, Icons.chat),
               _buildSmoothIcon(3, Icons.person_outlined, Icons.person),

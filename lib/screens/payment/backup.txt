@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
-import 'package:lottie/lottie.dart';
-import '../../utils/audiotone/audiotone.dart';
-import '../main/main_navigator.dart';
 
 class PaymentMethodScreen extends StatefulWidget {
   const PaymentMethodScreen({super.key});
@@ -13,92 +10,6 @@ class PaymentMethodScreen extends StatefulWidget {
 
 class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   int _selectedWallet = 0; // 0: PayPal, 1: Google Pay, 2: Apple Pay
-
-  void _showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-
-      builder: (BuildContext dialogContext) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Lottie.asset(
-                  'assets/icons/payment.json',
-                  width: 180,
-                  height: 180,
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  'Your Delivery is Active.\nEnjoy the Food!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 32),
-                _buildDetailRow('Payment Method', 'Master Card'),
-                const SizedBox(height: 12),
-                _buildDetailRow('Card Number', '6912 ****  7251'),
-                const SizedBox(height: 12),
-                _buildDetailRow('Price', '\$6.00'),
-                const SizedBox(height: 32),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //
-                      Navigator.pushAndRemoveUntil(
-                        context, // ⚠️ parent context
-                        MaterialPageRoute(
-                          builder: (_) => const MainNavigationScreen(),
-                        ),
-                        (route) => false,
-                      );
-                      // Navigator.of(context).pop(); // Uncomment if you want to go back after closing
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryGreen,
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: const Text(
-                      'Done',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildDetailRow(String label, String value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: TextStyle(color: AppTheme.gray, fontSize: 15)),
-        Text(
-          value,
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-        ),
-      ],
-    );
-  }
 
   Widget _walletTile({
     required Widget logo,
@@ -278,20 +189,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    // Show the dialog immediately
-                    _showSuccessDialog(context);
-
-                    // Schedule sound to play right after the dialog is shown
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (!mounted) return;
-                      SoundService().playPaymentSuccess();
-                    });
-                  },
-
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primaryGreen,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 13),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
