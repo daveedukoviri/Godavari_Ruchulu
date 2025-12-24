@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
-import 'package:f2/screens/editprofile/editprofile.dart'; // We'll create this next
-import 'package:f2/screens/passwordmanager/passwordmanager.dart';
+import 'package:tastehub/screens/editprofile/editprofile.dart'; // We'll create this next
+import 'package:tastehub/screens/passwordmanager/passwordmanager.dart';
 
 class MyAccountScreen extends StatelessWidget {
   const MyAccountScreen({super.key});

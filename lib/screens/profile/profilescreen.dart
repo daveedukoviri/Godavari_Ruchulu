@@ -49,18 +49,18 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              border: Border.all(color: const Color(0xFFF0F0F0), width: 1.2),
-            ),
-            child: const Icon(Icons.arrow_back, color: Colors.black, size: 18),
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () => Navigator.pop(context),
+        //   icon: Container(
+        //     padding: const EdgeInsets.all(6),
+        //     decoration: BoxDecoration(
+        //       shape: BoxShape.circle,
+        //       color: Colors.white,
+        //       border: Border.all(color: const Color(0xFFF0F0F0), width: 1.2),
+        //     ),
+        //     child: const Icon(Icons.arrow_back, color: Colors.black, size: 18),
+        //   ),
+        // ),
 
         title: const Text(
           'Profile',
@@ -71,6 +71,13 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+
+         actions: [
+          IconButton(
+            icon: const Icon(Icons.more_vert, color: Colors.grey),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -1,4 +1,4 @@
-name: f2
+name: tastehub
 description: "A new Flutter project."
 publish_to: 'none'
 
@@ -16,11 +16,13 @@ dependencies:
   cached_network_image: ^3.3.0
   google_maps_flutter_web: ^0.5.9+1
   just_audio: ^0.9.40
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -36,4 +38,8 @@ flutter:
     - assets/images/ 
     - assets/icons/
     - assets/tones/
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
 

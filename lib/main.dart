@@ -9,8 +9,8 @@
 // import 'package:f2/screens/subscription/subscription.dart';
 // import 'package:f2/screens/reviewsubscription/reviewsubscription.dart';
 // import 'package:f2/screens/helpcenter/helpcenter.dart';
-import 'package:f2/screens/onboard/onboard.dart';
-import 'package:f2/theme/app_theme.dart'; // Make sure this path is correct
+import '../../../screens/onboard/onboard.dart';
+import '../../../theme/app_theme.dart'; // Make sure this path is correct
 import 'package:flutter/material.dart';
 
 void main() {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../theme/app_theme.dart';
 
 // Import your screens
 import '../home/home.dart';
 import '../notification/notification.dart';
-import '../cart/cartscreen.dart';
 import '../chat/chat.dart';
 // import '../trackorder/trackorder.dart';
 import '../profile/profilescreen.dart';
@@ -22,8 +20,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const NotificationsScreen(),
-    const CartScreen(), // Using as Favorites tab
+    const NotificationsScreen(), // Using as Favorites tab
     const ChatScreen(), // Using as Search tab
     const ProfileScreen(),
   ];
@@ -76,17 +73,17 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(index: _selectedIndex, children: _screens),
-      // floatingActionButton: FloatingActionButton(
-      //   heroTag: null,
-      //   backgroundColor: AppTheme.primaryGreen,
-      //   elevation: 4,
-      //   shape: const CircleBorder(),
-      //   onPressed: () {
-      //     // Add new recipe action
-      //   },
-      //   child: const Icon(Icons.add, size: 32, color: Colors.white),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        heroTag: null,
+        backgroundColor: AppTheme.primaryGreen,
+        elevation: 4,
+        shape: const CircleBorder(),
+        onPressed: () {
+          // Add new recipe action
+        },
+        child: const Icon(Icons.add, size: 32, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -112,10 +109,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 Icons.notifications_outlined,
                 Icons.notifications,
               ),
-              _buildSmoothIcon(  2,Icons.local_dining_outlined,Icons.local_dining ),
-
-              _buildSmoothIcon(3, Icons.chat_bubble_outline, Icons.chat),
-              _buildSmoothIcon(4, Icons.person_outlined, Icons.person),
+              const SizedBox(width: 40),
+              _buildSmoothIcon(2, Icons.chat_bubble_outline, Icons.chat),
+              _buildSmoothIcon(3, Icons.person_outlined, Icons.person),
             ],
           ),
         ),
