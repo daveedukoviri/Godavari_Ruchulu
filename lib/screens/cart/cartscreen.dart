@@ -467,7 +467,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                   scale: value,
                   child: TextButton.icon(
                     onPressed: _showClearCartDialog,
-                    icon: const Icon(Icons.delete_outline, size: 12),
+                    // icon: const Icon(Icons.delete_outline, size: 12),
                     label: const Text('Clear All'),
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.red,
@@ -485,113 +485,51 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildEmptyState() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-      child: Column(
-        children: [
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.0, end: 1.0),
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.elasticOut,
-            builder: (context, value, child) {
-              return Transform.scale(
-                scale: value,
-                child: Container(
-                  width: 160,
-                  height: 160,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        const Color(0xFF0B7A4B).withValues(alpha: 0.1),
-                        const Color(0xFF0D9B5E).withValues(alpha: 0.05),
-                      ],
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.shopping_bag_outlined,
-                    size: 80,
-                    color: Color(0xFF0B7A4B),
-                  ),
-                ),
-              );
-            },
+ Widget _buildEmptyState() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Lottie with circular background
+        Container(
+          width: 240,
+          height: 240,
+          decoration: BoxDecoration(
+            color: const Color(0xFF0B7A4B).withOpacity(0.1),
+            shape: BoxShape.circle,
           ),
-          const SizedBox(height: 32),
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.0, end: 1.0),
-            duration: const Duration(milliseconds: 600),
-            curve: Curves.easeOutCubic,
-            builder: (context, value, child) {
-              return Transform.translate(
-                offset: Offset(0, 20 * (1 - value)),
-                child: Opacity(
-                  opacity: value,
-                  child: const Text(
-                    'Your cart is empty',
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              );
-            },
+          child: Lottie.asset(
+            'assets/icons/emptycart.json',
+            fit: BoxFit.contain,
           ),
-          const SizedBox(height: 12),
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.0, end: 1.0),
-            duration: const Duration(milliseconds: 600),
-            curve: Curves.easeOutCubic,
-            builder: (context, value, child) {
-              return Transform.translate(
-                offset: Offset(0, 20 * (1 - value)),
-                child: Opacity(
-                  opacity: value,
-                  child: Text(
-                    'Add some delicious items to get started!',
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            },
+        ),
+        
+        const SizedBox(height: 32),
+        
+        const Text(
+          'Your cart is empty',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 40),
-          ScaleTransition(
-            scale: _checkoutAnimation,
-            child: ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0B7A4B),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 48,
-                  vertical: 18,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 4,
-                shadowColor: const Color(0xFF0B7A4B).withValues(alpha: 0.3),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.restaurant_menu, size: 22),
-                  SizedBox(width: 12),
-                  Text(
-                    'Browse Menu',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
+          textAlign: TextAlign.center,
+        ),
+        
+        const SizedBox(height: 12),
+        
+        Text(
+          'Add some delicious items to get started!',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey.shade600,
           ),
-        ],
-      ),
-    );
-  }
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildCartItem(CartItem item) {
     return Hero(
@@ -1187,203 +1125,168 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildFloatingSummary() {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(24),
-            topRight: const Radius.circular(24),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, -5),
-            ),
-          ],
+ Widget _buildFloatingSummary() {
+  return Positioned(
+    bottom: 0,
+    left: 0,
+    right: 0,
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Expandable Summary
-            Container(
-              decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha :0.1),
+            blurRadius: 20,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Toggle Header
+          GestureDetector(
+            onTap: _toggleSummary,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(24),
-                  topRight: const Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
                 ),
               ),
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Summary Toggle
-                  GestureDetector(
-                    onTap: _toggleSummary,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 20,
+                  Row(
+                    children: [
+                      Icon(
+                        _showSummary ? Icons.expand_less : Icons.expand_more,
+                        color: AppTheme.primaryGreen,
+                        size: 22,
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: const Radius.circular(24),
-                          topRight: const Radius.circular(24),
+                      const SizedBox(width: 12),
+                      const Text(
+                        'Order Summary',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                _showSummary
-                                    ? Icons.expand_less
-                                    : Icons.expand_more,
-                                color: AppTheme.primaryGreen,
-                                size: 22,
-                              ),
-                              const SizedBox(width: 12),
-                              const Text(
-                                'Order Summary',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 8,
-                            ),
-
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.currency_rupee,
-                                  size: 16,
-                                  color: AppTheme.primaryGreen,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                const SizedBox(width: 2),
-                                Text(
-                                  _total.toStringAsFixed(2),
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppTheme.primaryGreen,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ],
                   ),
-
-                  // Summary Details (Expandable)
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    height: _showSummary ? 160 : 0,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: SingleChildScrollView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          children: [
-                            const Divider(),
-                            const SizedBox(height: 16),
-                            _buildSummaryRow('Subtotal', _subtotal),
-                            const SizedBox(height: 12),
-                            _buildSummaryRow('Delivery Fee', _deliveryFee),
-                            const SizedBox(height: 12),
-                            _buildSummaryRow('Tax (14%)', _tax),
-                            const SizedBox(height: 16),
-                            const Divider(),
-                            const SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Total Amount',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Text(
-                                  'EGP ${_total.toStringAsFixed(2)}',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppTheme.primaryGreen,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                          ],
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.currency_rupee,
+                          size: 16,
+                          color: AppTheme.primaryGreen,
                         ),
-                      ),
+                        const SizedBox(width: 2),
+                        Text(
+                          _total.toStringAsFixed(2),
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.primaryGreen,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
+          ),
 
-            // Checkout Button
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  _checkoutController.reset();
-                  _checkoutController.forward();
-                  // Navigate to checkout
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primaryGreen,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                  surfaceTintColor: Colors.transparent,
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.lock_outline, size: 20),
-                    SizedBox(width: 12),
-                    Text(
-                      'Proceed to Checkout',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+          // Expandable Details + Checkout Button Inside
+          SizeTransition(
+            sizeFactor: _summaryAnimation,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: Column(
+                children: [
+                  const Divider(),
+                  const SizedBox(height: 16),
+                  _buildSummaryRow('Subtotal', _subtotal),
+                  const SizedBox(height: 12),
+                  _buildSummaryRow('Delivery Fee', _deliveryFee),
+                  const SizedBox(height: 12),
+                  _buildSummaryRow('Tax (14%)', _tax),
+                  const SizedBox(height: 16),
+                  const Divider(),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total Amount',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
+                      Text(
+                        'EGP ${_total.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.primaryGreen,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Checkout Button - Now inside the expandable area
+                  ElevatedButton(
+                    onPressed: () {
+                      _checkoutController.reset();
+                      _checkoutController.forward();
+                      // Navigate to checkout
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryGreen,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      elevation: 0,
+                      shadowColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
                     ),
-                  ],
-                ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.lock_outline, size: 16),
+                        SizedBox(width: 12),
+                        Text(
+                          'Proceed to Checkout',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 15), // Space at bottom when expanded
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildSummaryRow(String label, double amount) {
     return Row(

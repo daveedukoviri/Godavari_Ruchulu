@@ -4,7 +4,9 @@ import '../../utils/loader.dart';
 import '../payment/payment.dart';
 
 class Receiptdetails extends StatefulWidget {
-  const Receiptdetails({super.key, required Map<String, String> recipe});
+  final Map<String, dynamic> recipe;
+  
+  const Receiptdetails({super.key, required this.recipe});
 
   @override
   State<Receiptdetails> createState() => _ReceiptdetailsState();
@@ -50,8 +52,8 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.42,
                 width: double.infinity,
-                child: Image.network(
-                  'https://cdn.apartmenttherapy.info/image/upload/v1734750008/k/Photo/Recipes/2024-12-dumpling-soup/dumpling-soup-4827.jpg',
+                child:Image.network(
+                  widget.recipe['imageUrl'], // Use the recipe's image
                   fit: BoxFit.cover,
                 ),
               ),
@@ -118,9 +120,9 @@ class _ReceiptdetailsState extends State<Receiptdetails> {
                           const SizedBox(height: 24),
 
                           // Title
-                          const Text(
-                            'Beef Swiss Mushroom Single',
-                            style: TextStyle(
+                          Text(
+                              widget.recipe['title'] as String,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),

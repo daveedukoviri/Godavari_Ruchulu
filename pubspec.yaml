@@ -35,6 +35,7 @@ flutter:
           style: italic
       
   assets:
+    - assets/data/recipes.json
     - assets/images/ 
     - assets/icons/
     - assets/tones/
